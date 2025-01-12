@@ -1,7 +1,7 @@
 // webpack.config.js
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: "development",
@@ -17,7 +17,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'main.css', // Output CSS file
+      filename: "main.css", // Output CSS file
     }),
     new HtmlWebpackPlugin({
       template: "./src/index.html",
@@ -29,16 +29,26 @@ module.exports = {
         test: /\.css$/i, // Match CSS files
         use: [
           MiniCssExtractPlugin.loader, // Extract CSS into separate files
-          'css-loader', // Turn CSS into JS modules
+          "css-loader", // Turn CSS into JS modules
         ],
       },
       {
-        test: /\.html$/i,
+        test: /\.html$/i, // Match HTML files
         loader: "html-loader",
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif)$/i, // Match image files
         type: "asset/resource",
+      },
+      {
+        test: /\.js$/, // Match JavaScript files
+        exclude: /node_modules/, // Exclude node_modules
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"], // Use Babel preset-env
+          },
+        },
       },
     ],
   },
